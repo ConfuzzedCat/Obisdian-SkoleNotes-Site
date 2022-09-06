@@ -1,5 +1,4 @@
 ---
-title: "Variabler"
 slug: variables
 ---
 
