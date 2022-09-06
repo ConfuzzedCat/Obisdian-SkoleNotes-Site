@@ -3,20 +3,20 @@
       <nav>
         <ul>
           <li class="section" v-for="{ node } in $static.menu.edges" :key="node.id">
-            <h3 class="section-title">{{node.section}}</h3>
             <ul>
               <li v-for="item in node.topics" :key="item.title">
                 <g-link class="topic" :to="'/' + item.slug">{{item.title}}</g-link>
-                <ul v-if="checkAnchors(node.slug, item.slug)" v-for="{ node } in $static.docs.edges" :key="node.id">
-                  <li v-for="heading in node.headings" :key="heading.value">
-                    <a class="sub-topic" :href="'/' + item.slug + heading.anchor">{{heading.value}}</a>
-                  </li>
-                </ul>
+                <template v-if="item.slug == $route.params.slug">
+                  <ul v-if="checkAnchors(node.slug, item.slug)" v-for="{ node } in $static.docs.edges" :key="node.id">
+                    <li v-for="heading in node.headings" :key="heading.value">
+                      <a class="sub-topic" :href="'/' + item.slug + heading.anchor">{{heading.value}}</a>
+                    </li>
+                  </ul>
+                </template>
               </li>
             </ul>
           </li>
         </ul>
-        <GitLink class="git" />
       </nav>
     </aside>
 </template>
@@ -26,7 +26,6 @@ query Menu {
   menu: allMenu(order:ASC) {
     edges {
       node {
-        section
         topics {
           title
           slug
